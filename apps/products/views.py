@@ -13,8 +13,8 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 
 
-@api_view(['GET'])
-def getProductBySlug(request, slug):
-    product = get_object_or_404(Product, slug=slug)
-    serializer = ProductSerializer(product, many=False)
-    return Response(serializer.data)
+# @api_view(['GET'])
+# def getProductBySlug(request, slug):
+#     product = get_object_or_404(Product, slug=slug)
+#     serializer = ProductSerializer(product, many=False)
+#     return Response(serializer.data)

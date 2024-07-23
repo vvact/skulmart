@@ -1,15 +1,10 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import CustomUserViewSet
-
-router = DefaultRouter()
-
-router.register(r'users', CustomUserViewSet)
+from django.urls import path
+from .views import registerUser, getUserProfile, getUsers, MyTokenObtainPairView
+from . import views
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('users/login/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('users/register/', views.registerUser, name='registerUser'),
+    path('users/profile/', views.getUserProfile, name='getUserProfile'),
+    path('users/', views.getUsers, name='getUsers'),
 ]
-
-
-
-
