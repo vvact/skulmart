@@ -7,6 +7,14 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 
+#Import modules for sending mails and token generation
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
+from .utils import TokenGenerator,generate_token
+from django.utils.encoding import force_bytes,force_text,DjangoUnicodeDecodeError
+from django.core.mail import EmailMessage
+from django.conf import settings
+
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -51,8 +59,11 @@ def registerUser(request):
             last_name=data.get('lname', ''),
             username=data.get('email', ''),
             email=data.get('email', ''),
-            password=make_password(data.get('password'))
+            password=make_password(data.get('password')),
+            is_active=False
         )
+        #generate token for Email Verification
+
         serializer = UserSerializerWithToken(user, many=False)
         return Response(serializer.data, status=201)
     except KeyError as e:
